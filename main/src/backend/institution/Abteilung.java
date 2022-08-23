@@ -1,10 +1,8 @@
-package institution;
+package backend.institution;
 
-import person.mitarbeiter.Mitarbeiter;
-import person.mitarbeiter.Manager;
+import backend.person.mitarbeiter.Manager;
+import backend.person.mitarbeiter.Mitarbeiter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeSet;
 
 public class Abteilung {

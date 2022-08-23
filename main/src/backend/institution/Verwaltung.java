@@ -1,10 +1,11 @@
-package institution;
+package backend.institution;
 
-import fahrzeuge.KraftFahrZeug;
-import person.MitarbeiterTyp;
-import person.mitarbeiter.Manager;
-import person.mitarbeiter.Mitarbeiter;
-import person.mitarbeiter.SchichtArbeiter;
+
+import backend.fahrzeuge.KraftFahrZeug;
+import backend.person.MitarbeiterTyp;
+import backend.person.mitarbeiter.Manager;
+import backend.person.mitarbeiter.Mitarbeiter;
+import backend.person.mitarbeiter.SchichtArbeiter;
 
 import java.util.List;
 

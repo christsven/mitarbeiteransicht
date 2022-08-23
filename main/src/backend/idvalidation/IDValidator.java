@@ -1,6 +1,7 @@
-package idvalidation;
+package backend.idvalidation;
 
-import person.MitarbeiterTyp;
+
+import backend.person.MitarbeiterTyp;
 
 import java.util.ArrayList;
 import java.util.List;

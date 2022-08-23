@@ -1,8 +1,9 @@
-package person.mitarbeiter;
+package backend.person.mitarbeiter;
 
-import idvalidation.IDStatus;
-import idvalidation.IDValidator;
-import person.MitarbeiterTyp;
+
+import backend.idvalidation.IDStatus;
+import backend.idvalidation.IDValidator;
+import backend.person.MitarbeiterTyp;
 
 import java.util.Comparator;
 

@@ -1,11 +1,12 @@
 package institution;
 
+import backend.institution.Abteilung;
+import backend.person.mitarbeiter.BueroArbeiter;
+import backend.person.mitarbeiter.Manager;
+import backend.person.mitarbeiter.Mitarbeiter;
+import backend.person.mitarbeiter.SchichtArbeiter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import person.mitarbeiter.BueroArbeiter;
-import person.mitarbeiter.Manager;
-import person.mitarbeiter.Mitarbeiter;
-import person.mitarbeiter.SchichtArbeiter;
 
 import java.util.ArrayList;
 

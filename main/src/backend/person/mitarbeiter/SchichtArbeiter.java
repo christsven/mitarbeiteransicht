@@ -1,6 +1,7 @@
-package person.mitarbeiter;
+package backend.person.mitarbeiter;
 
-import person.MitarbeiterTyp;
+
+import backend.person.MitarbeiterTyp;
 
 public class SchichtArbeiter extends Mitarbeiter {
 

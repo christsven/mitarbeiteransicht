@@ -1,5 +1,7 @@
 package person.mitarbeiter;
 
+import backend.person.mitarbeiter.Mitarbeiter;
+import backend.person.mitarbeiter.SchichtArbeiter;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

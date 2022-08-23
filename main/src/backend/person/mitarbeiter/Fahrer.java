@@ -1,4 +1,4 @@
-package person.mitarbeiter;
+package backend.person.mitarbeiter;
 
 public class Fahrer extends SchichtArbeiter {
 

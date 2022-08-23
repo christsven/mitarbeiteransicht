@@ -1,8 +1,10 @@
 package idvalidation;
 
+import backend.idvalidation.IDStatus;
+import backend.idvalidation.IDValidator;
+import backend.person.MitarbeiterTyp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import person.MitarbeiterTyp;
 
 class IDValidatorTest {
 
