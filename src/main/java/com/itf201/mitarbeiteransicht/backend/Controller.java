@@ -55,5 +55,12 @@ public class Controller {
         return true;
     }
 
+    public boolean addMitarbeiterToAbteilung(int idMitarbeiter, String nameAbteilung) {
+        return true;
+    }
+
+    public boolean removeMitarbeiterFromAbteilung(int idMitarbeiter, String nameAbteilung) {
+        return true;
+    }
 
 }
