@@ -36,7 +36,6 @@ public class IDValidator {
         if (!checkIDisFree(id)) {
             return IDStatus.ALREADY_TAKEN;
         }
-
         switch (typ) {
             case SCHICHTARBEITER:
                 if(id >= 3000 && id <= 3999) {
@@ -59,7 +58,6 @@ public class IDValidator {
             default:
                 return IDStatus.UNKNOWN_TYPE;
         }
-
         return IDStatus.OK;
     }
 
