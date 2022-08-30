@@ -12,14 +12,6 @@ public class MitarbeiterEditModal extends JFrame {
     private static final Dimension BODY_SIZE = new Dimension(500, 350);
     private static final Dimension BUTTONROW_SIZE = new Dimension(500, 50);
     private static final Color BACKGROUND_COLOR = Color.GRAY;
-
-    private final FlowLayout layout = new FlowLayout();
-    private final FlowLayout layoutHeader = new FlowLayout();
-    private final FlowLayout layoutBody = new FlowLayout();
-    private final FlowLayout layoutBodyLeft = new FlowLayout();
-    private final FlowLayout layoutBodyRight = new FlowLayout();
-    private final FlowLayout layoutButtonRow = new FlowLayout();
-
     private final JPanel header = new JPanel();
     private final JPanel body = new JPanel();
     private final JPanel bodyInternalLeft = new JPanel();
@@ -29,11 +21,11 @@ public class MitarbeiterEditModal extends JFrame {
     private final JButton updateButton = new JButton();
     private final JButton exitButton = new JButton();
 
-    private final JTextArea headerText = new JTextArea();
-    private final JTextArea textId = new JTextArea();
-    private final JTextArea textName = new JTextArea();
-    private final JTextArea textCustom1 = new JTextArea();
-    private final JTextArea textCustom2 = new JTextArea();
+    private final JLabel headerText = new JLabel();
+    private final JLabel textId = new JLabel();
+    private final JLabel textName = new JLabel();
+    private final JLabel textCustom1 = new JLabel();
+    private final JLabel textCustom2 = new JLabel();
 
     public MitarbeiterEditModal(MitarbeiterTyp typ) {
         createDefaultBody();
@@ -45,9 +37,11 @@ public class MitarbeiterEditModal extends JFrame {
             case MANAGER -> createManagerBody();
         }
         this.setSize(WINDOW_SIZE);
+        this.setResizable(false);
+        this.setAlwaysOnTop(true);
         this.setVisible(true);
-        this.setLayout(layout);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.pack();
     }
 
     private void createManagerBody() {}
@@ -57,48 +51,46 @@ public class MitarbeiterEditModal extends JFrame {
     private void createSchichtarbeiterBody() {}
 
     private void createHeader() {
-        header.setLayout(layout);
+        headerText.setFont(new Font(Font.SERIF, Font.BOLD, 20));
+        headerText.setText("Mitarbeiter bearbeiten");
+        headerText.setVisible(true);
+        header.add(headerText);
+
         header.setBackground(BACKGROUND_COLOR);
         header.setSize(HEADER_SIZE);
-
-        headerText.setText("Mitarbeiter bearbeiten");
-        headerText.setBackground(BACKGROUND_COLOR);
-        headerText.setSize(header.getSize());
-
-        header.add(headerText);
 
         this.add(header);
     }
 
     private void createDefaultBody() {
-        body.setLayout(layout);
-        body.setBackground(BACKGROUND_COLOR.darker());
-        body.setSize(BODY_SIZE);
-
         textName.setText("Name");
         textName.setVisible(true);
-        textName.setLayout(layout);
 
         textId.setText("ID");
         textId.setVisible(true);
-        textId.setLayout(layout);
 
-        body.add(textName);
-        body.add(textId);
-        body.add(textCustom1);
-        body.add(textCustom2);
+        body.add(bodyInternalLeft);
+        body.add(bodyInternalRight);
+
+        bodyInternalLeft.add(textName);
+        bodyInternalLeft.add(textId);
+        bodyInternalLeft.add(textCustom1);
+        bodyInternalLeft.add(textCustom2);
+        body.setBackground(BACKGROUND_COLOR.darker());
+        body.setSize(BODY_SIZE);
 
         this.add(body);
     }
 
     private void createButtonRow() {
-        buttonrow.setLayout(layout);
         buttonrow.setBackground(BACKGROUND_COLOR);
         buttonrow.setSize(BUTTONROW_SIZE);
 
         exitButton.setText("Schließen");
+        exitButton.setVisible(true);
 
         updateButton.setText("Speichern");
+        updateButton.setVisible(true);
 
         buttonrow.add(exitButton);
         buttonrow.add(updateButton);
