@@ -141,11 +141,40 @@ public class Controller {
     }
 
     public boolean addMitarbeiterToAbteilung(int idMitarbeiter, String nameAbteilung) {
-        return true;
+        return findMitarbeiterInAbteilungAndProcess(false, idMitarbeiter, nameAbteilung);
     }
 
     public boolean removeMitarbeiterFromAbteilung(int idMitarbeiter, String nameAbteilung) {
-        return true;
+        return findMitarbeiterInAbteilungAndProcess(true, idMitarbeiter, nameAbteilung);
+    }
+
+    private boolean findMitarbeiterInAbteilungAndProcess(boolean remove, int idMitarbeiter, String nameAbteilung) {
+        Optional<Abteilung> abteilung = abteilungsListe.stream()
+                .filter(abteilungInListe -> abteilungInListe.getName().equals(nameAbteilung))
+                .findFirst();
+
+        Optional<Mitarbeiter> mitarbeiter = mitarbeiterListe.stream()
+                .filter(mitarbeiterInListe -> mitarbeiterInListe.getId() == idMitarbeiter)
+                .findFirst();
+
+        if(mitarbeiter.isPresent() && abteilung.isPresent()) {
+            Optional<Mitarbeiter> foundMitarbeiter = abteilung.get().getMitarbeiterListe().stream()
+                    .filter((mitarbeiterInAbteilung -> mitarbeiterInAbteilung.getId() == mitarbeiter.get().getId()))
+                    .findFirst();
+            if(foundMitarbeiter.isPresent()) {
+                if (remove) {
+                    abteilung.get().removeMitarbeiter(foundMitarbeiter.get());
+                } else {
+                    abteilung.get().addMitarbeiter(foundMitarbeiter.get());
+                }
+                LOGGER.log(Level.INFO, "Successfully removed Mitarbeiter from Abteilung.");
+                return true;
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Failed to remove, either didnt find Abteilung or Mitarbeiter.");
+        }
+        LOGGER.log(Level.SEVERE,"Failed to remove Mitarbeiter.");
+        return false;
     }
 
 }
