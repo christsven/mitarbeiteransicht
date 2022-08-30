@@ -2,8 +2,10 @@ package com.itf201.mitarbeiteransicht.backend;
 
 
 import com.itf201.mitarbeiteransicht.backend.institution.Abteilung;
-import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
+import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.BueroArbeiter;
+import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Manager;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Mitarbeiter;
+import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.SchichtArbeiter;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -19,6 +21,10 @@ public class Controller {
     private List<Abteilung> abteilungsListe;
     private TreeSet<Mitarbeiter> mitarbeiterListe;
     private static Logger LOGGER;
+
+    private int managerCounter = 5000;
+    private int bueroArbeiterCounter = 5100;
+    private int schichtArbeiterCounter = 3000;
 
     public Controller() {
         LOGGER.log(Level.INFO, "Create Controller.");
@@ -36,11 +42,45 @@ public class Controller {
         return mitarbeiterListe.stream().toList();
     }
 
-    public boolean createMitarbeiter(MitarbeiterTyp typ, String nachname, String vorname) {
-        // TODO add ID
-        // TODO validity checks
+    public boolean createMitarbeiter(MitarbeiterDto dto) {
+
+        switch (dto.typ()) {
+            case MANAGER -> createManager(dto.name(), dto.festgehalt(), dto.bonussatz());
+            case BUEROARBEITER -> createBueroarbeiter(dto.name(), dto.festgehalt());
+            case SCHICHTARBEITER -> createSchichtarbeiter(dto.name(), dto.stundenlohn(), dto.stundenzahl());
+        }
 
         return true;
+    }
+
+    private void createManager(String name, Double festgehalt, Double bonussatz) {
+        if (name == null || festgehalt == null || bonussatz == null) {
+            LOGGER.log(Level.SEVERE, "Null values found, failed to create Manager.");
+            throw new IllegalArgumentException();
+        }
+        mitarbeiterListe.add(new Manager(managerCounter, name, festgehalt, bonussatz));
+        managerCounter = managerCounter + 1;
+        LOGGER.log(Level.INFO, "New Manager created.");
+    }
+
+    private void createSchichtarbeiter(String name, Double stundenlohn, int stundenzahl) {
+        if (name == null || stundenlohn == null) {
+            LOGGER.log(Level.SEVERE, "Null values found, failed to create Schichtarbeiter.");
+            throw new IllegalArgumentException();
+        }
+        mitarbeiterListe.add(new SchichtArbeiter(schichtArbeiterCounter, name, stundenlohn, stundenzahl));
+        schichtArbeiterCounter = schichtArbeiterCounter + 1;
+        LOGGER.log(Level.INFO, "New Schichtarbeiter created.");
+    }
+
+    private void createBueroarbeiter(String name, Double festgehalt) {
+        if (name == null || festgehalt == null) {
+            LOGGER.log(Level.SEVERE, "Null values found, failed to create Bueroarbeiter.");
+            throw new IllegalArgumentException();
+        }
+        mitarbeiterListe.add(new BueroArbeiter(bueroArbeiterCounter, name, festgehalt));
+        bueroArbeiterCounter = bueroArbeiterCounter + 1;
+        LOGGER.log(Level.INFO, "New Bueroarbeiter created.");
     }
 
     public boolean deleteMitarbeiter(int id) {
@@ -51,7 +91,7 @@ public class Controller {
         return true;
     }
 
-    public boolean deleteAbteilung() {
+    public boolean deleteAbteilung(String nameAbteilung) {
         return true;
     }
 
