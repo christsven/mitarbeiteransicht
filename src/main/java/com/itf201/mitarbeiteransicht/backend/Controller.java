@@ -91,7 +91,7 @@ public class Controller {
         Optional<Mitarbeiter> found = mitarbeiterListe.stream()
                 .filter(mitarbeiter -> mitarbeiter.getId() == id)
                 .findFirst();
-        if (!found.isPresent()) {
+        if (found.isEmpty()) {
             LOGGER.log(Level.SEVERE, "Mitarbeiter ID is not used, failed to remove Mitarbeiter.");
             return false;
         }
@@ -127,6 +127,16 @@ public class Controller {
     }
 
     public boolean deleteAbteilung(String nameAbteilung) {
+        Optional<Abteilung> found = abteilungsListe.stream()
+                .filter(abteilung -> abteilung.getName().equals(nameAbteilung))
+                .findFirst();
+        if (found.isEmpty()) {
+            LOGGER.log(Level.SEVERE, "name of Abteilung is not used, failed to remove Abteilung.");
+            return false;
+        }
+        abteilungsListe.remove(found.get());
+        LOGGER.log(Level.INFO, "Removed Abteilung.");
+
         return true;
     }
 
