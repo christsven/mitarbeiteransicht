@@ -1,13 +1,16 @@
 package com.itf201.mitarbeiteransicht.backend;
 
 
+import com.itf201.mitarbeiteransicht.backend.idvalidation.IDValidator;
 import com.itf201.mitarbeiteransicht.backend.institution.Abteilung;
+import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.BueroArbeiter;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Manager;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Mitarbeiter;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.SchichtArbeiter;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,13 +46,11 @@ public class Controller {
     }
 
     public boolean createMitarbeiter(MitarbeiterDto dto) {
-
         switch (dto.typ()) {
             case MANAGER -> createManager(dto.name(), dto.festgehalt(), dto.bonussatz());
             case BUEROARBEITER -> createBueroarbeiter(dto.name(), dto.festgehalt());
             case SCHICHTARBEITER -> createSchichtarbeiter(dto.name(), dto.stundenlohn(), dto.stundenzahl());
         }
-
         return true;
     }
 
@@ -58,6 +59,7 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Manager.");
             throw new IllegalArgumentException();
         }
+        IDValidator.saveID(MitarbeiterTyp.MANAGER, managerCounter);
         mitarbeiterListe.add(new Manager(managerCounter, name, festgehalt, bonussatz));
         managerCounter = managerCounter + 1;
         LOGGER.log(Level.INFO, "New Manager created.");
@@ -68,6 +70,7 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Schichtarbeiter.");
             throw new IllegalArgumentException();
         }
+        IDValidator.saveID(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
         mitarbeiterListe.add(new SchichtArbeiter(schichtArbeiterCounter, name, stundenlohn, stundenzahl));
         schichtArbeiterCounter = schichtArbeiterCounter + 1;
         LOGGER.log(Level.INFO, "New Schichtarbeiter created.");
@@ -78,16 +81,48 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Bueroarbeiter.");
             throw new IllegalArgumentException();
         }
+        IDValidator.saveID(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
         mitarbeiterListe.add(new BueroArbeiter(bueroArbeiterCounter, name, festgehalt));
         bueroArbeiterCounter = bueroArbeiterCounter + 1;
         LOGGER.log(Level.INFO, "New Bueroarbeiter created.");
     }
 
     public boolean deleteMitarbeiter(int id) {
+        Optional<Mitarbeiter> found = mitarbeiterListe.stream()
+                .filter(mitarbeiter -> mitarbeiter.getId() == id)
+                .findFirst();
+        if (!found.isPresent()) {
+            LOGGER.log(Level.SEVERE, "Mitarbeiter ID is not used, failed to remove Mitarbeiter.");
+            return false;
+        }
+        mitarbeiterListe.remove(found.get());
+        LOGGER.log(Level.INFO, "Removed Mitarbeiter.");
+
         return true;
     }
 
     public boolean createAbteilung(String nameAbteilung, int idLeiter, List<Integer> idsMitarbeiter) {
+        if (nameAbteilung == null) {
+            LOGGER.log(Level.SEVERE, "Name cannot be null");
+            throw new IllegalArgumentException();
+        }
+        Optional<Mitarbeiter> leiter = mitarbeiterListe.stream()
+                .filter(mitarbeiter -> mitarbeiter.getId() == idLeiter)
+                .findFirst();
+        if (leiter.isEmpty()) throw new IllegalArgumentException("Leiter does not exist");
+        Abteilung abteilung = new Abteilung(nameAbteilung, (Manager) leiter.get());
+        idsMitarbeiter.forEach(id -> {
+            Optional<Mitarbeiter> foundMitarbeiter = mitarbeiterListe.stream()
+                    .filter(mitarbeiter -> mitarbeiter.getId() == id)
+                    .findFirst();
+            if (foundMitarbeiter.isPresent()) {
+                abteilung.addMitarbeiter(foundMitarbeiter.get());
+            } else {
+                LOGGER.log(Level.SEVERE, String.format("ID %s does not exist", id));
+            }
+        });
+        abteilungsListe.add(abteilung);
+        LOGGER.log(Level.INFO, "Abteilung successfully created.");
         return true;
     }
 
