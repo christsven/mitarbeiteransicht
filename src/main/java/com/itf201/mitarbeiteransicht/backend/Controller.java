@@ -30,6 +30,7 @@ public class Controller {
     private int schichtArbeiterCounter = 3000;
 
     public Controller() {
+        LOGGER = Logger.getAnonymousLogger();
         LOGGER.log(Level.INFO, "Create Controller.");
     }
 
@@ -59,7 +60,7 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Manager.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.MANAGER, managerCounter);
+        IDValidator.validateID(MitarbeiterTyp.MANAGER, managerCounter);
         mitarbeiterListe.add(new Manager(managerCounter, name, festgehalt, bonussatz));
         managerCounter = managerCounter + 1;
         LOGGER.log(Level.INFO, "New Manager created.");
@@ -70,7 +71,7 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Schichtarbeiter.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
+        IDValidator.validateID(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
         mitarbeiterListe.add(new SchichtArbeiter(schichtArbeiterCounter, name, stundenlohn, stundenzahl));
         schichtArbeiterCounter = schichtArbeiterCounter + 1;
         LOGGER.log(Level.INFO, "New Schichtarbeiter created.");
@@ -81,7 +82,7 @@ public class Controller {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Bueroarbeiter.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
+        IDValidator.validateID(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
         mitarbeiterListe.add(new BueroArbeiter(bueroArbeiterCounter, name, festgehalt));
         bueroArbeiterCounter = bueroArbeiterCounter + 1;
         LOGGER.log(Level.INFO, "New Bueroarbeiter created.");
@@ -171,7 +172,7 @@ public class Controller {
                 return true;
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Failed to remove, either didnt find Abteilung or Mitarbeiter.");
+            LOGGER.log(Level.SEVERE, "Failed to remove, either didn't find Abteilung or Mitarbeiter.");
         }
         LOGGER.log(Level.SEVERE,"Failed to remove Mitarbeiter.");
         return false;
