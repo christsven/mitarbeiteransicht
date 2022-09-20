@@ -1,6 +1,7 @@
 package com.itf201.mitarbeiteransicht.backend;
 
 
+import com.google.gson.Gson;
 import com.itf201.mitarbeiteransicht.backend.idvalidation.IDValidator;
 import com.itf201.mitarbeiteransicht.backend.institution.Abteilung;
 import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
@@ -9,6 +10,8 @@ import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Manager;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.Mitarbeiter;
 import com.itf201.mitarbeiteransicht.backend.person.mitarbeiter.SchichtArbeiter;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
@@ -19,7 +22,7 @@ import java.util.logging.Logger;
  * Verwaltet Mitarbeiterlisten und stellt Schnittstellen für das Frontend zur vereinfachten
  * Bedienung des Backends zur Verfügung.
  */
-public class Controller {
+public class ReaderWriter {
 
     private List<Abteilung> abteilungsListe;
     private TreeSet<Mitarbeiter> mitarbeiterListe;
@@ -29,7 +32,10 @@ public class Controller {
     private int bueroArbeiterCounter = 5100;
     private int schichtArbeiterCounter = 3000;
 
-    public Controller() {
+    private static final String FILE_PATH = "H:/Schule/src/mitarbeiteransicht/src/main/java/com/itf201/mitarbeiteransicht/persistence/die_datenbank.json";
+
+    public ReaderWriter() {
+        LOGGER = Logger.getGlobal();
         LOGGER.log(Level.INFO, "Create Controller.");
     }
 
@@ -60,9 +66,29 @@ public class Controller {
             throw new IllegalArgumentException();
         }
         IDValidator.saveID(MitarbeiterTyp.MANAGER, managerCounter);
-        mitarbeiterListe.add(new Manager(managerCounter, name, festgehalt, bonussatz));
+        //mitarbeiterListe.add(new Manager(managerCounter, name, festgehalt, bonussatz));
+        try {
+            writeToDataBase(new MitarbeiterDto(
+                    managerCounter,
+                    name,
+                    MitarbeiterTyp.MANAGER,
+                    festgehalt,
+                    0.0,
+                    bonussatz,
+                    0));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to save.");
+        }
         managerCounter = managerCounter + 1;
         LOGGER.log(Level.INFO, "New Manager created.");
+    }
+
+    private void writeToDataBase(MitarbeiterDto dto) throws IOException {
+        Gson gson = new Gson();
+        FileWriter writer = new FileWriter(FILE_PATH);
+        gson.toJson(dto, writer);
+        writer.flush();
+        writer.close();
     }
 
     private void createSchichtarbeiter(String name, Double stundenlohn, int stundenzahl) {
