@@ -4,6 +4,7 @@ package com.itf201.mitarbeiteransicht.backend;
 import com.itf201.mitarbeiteransicht.backend.idvalidation.IDValidator;
 import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,12 @@ public class ReaderWriter {
     }
 
     public static List<MitarbeiterDto> getAllMitarbeiter() {
-        return csvRepository.getAllMitarbeiter();
+        try {
+            return csvRepository.getAllMitarbeiter();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to read from file.");
+            return null;
+        }
     }
 
     public static void editMitarbeiter(MitarbeiterDto dto) {
