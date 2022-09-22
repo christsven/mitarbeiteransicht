@@ -9,29 +9,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Verwaltet Mitarbeiterlisten und stellt Schnittstellen für das Frontend zur vereinfachten
- * Bedienung des Backends zur Verfügung.
+ * Utility Class, die mit dem Frontend per {@link MitarbeiterDto} kommuniziert und die Verwaltung der Mitarbeiterliste
+ * übernimmt, um die Arbeit im Frontend zu erleichtern.
  */
 public class ReaderWriter {
 
-    private static Logger LOGGER;
-    private int managerCounter = 5000;
-    private int bueroArbeiterCounter = 5100;
-    private int schichtArbeiterCounter = 3000;
+    private static int managerCounter = 5000;
+    private static int bueroArbeiterCounter = 5100;
+    private static int schichtArbeiterCounter = 3000;
+    private static final Logger LOGGER = Logger.getLogger("ReaderWriter");;
+    private static final CSVRepository csvRepository = new CSVRepository();
 
-    private CSVRepository csvRepository;
-
-    public ReaderWriter() {
-        LOGGER = Logger.getLogger("ReaderWriter");
-        LOGGER.log(Level.INFO, "Create ReaderWriter.");
-        csvRepository = new CSVRepository();
-    }
-
-    public List<MitarbeiterDto> getAllMitarbeiter() {
+    public static List<MitarbeiterDto> getAllMitarbeiter() {
         return csvRepository.getAllFromCSV();
     }
 
-    public void createMitarbeiter(MitarbeiterDto dto) {
+    public static void createMitarbeiter(MitarbeiterDto dto) {
         switch (dto.typ()) {
             case MANAGER -> createManager(dto);
             case BUEROARBEITER -> createBueroarbeiter(dto);
@@ -39,12 +32,12 @@ public class ReaderWriter {
         }
     }
 
-    public void deleteMitarbeiter(int id) {
+    public static void deleteMitarbeiter(int id) {
         csvRepository.deleteFromCSV(id);
         LOGGER.log(Level.INFO, "Removed Mitarbeiter.");
     }
 
-    private void createManager(MitarbeiterDto dto) {
+    private static void createManager(MitarbeiterDto dto) {
         if (dto.name() == null || dto.festgehalt() == null || dto.bonussatz() == null) {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Manager.");
             throw new IllegalArgumentException();
@@ -55,7 +48,7 @@ public class ReaderWriter {
         LOGGER.log(Level.INFO, "New Manager created.");
     }
 
-    private void createSchichtarbeiter(MitarbeiterDto dto) {
+    private static void createSchichtarbeiter(MitarbeiterDto dto) {
         if (dto.name() == null || dto.stundenlohn() == null) {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Schichtarbeiter.");
             throw new IllegalArgumentException();
@@ -66,7 +59,7 @@ public class ReaderWriter {
         LOGGER.log(Level.INFO, "New Schichtarbeiter created.");
     }
 
-    private void createBueroarbeiter(MitarbeiterDto dto) {
+    private static void createBueroarbeiter(MitarbeiterDto dto) {
         if (dto.name() == null || dto.festgehalt() == null) {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Bueroarbeiter.");
             throw new IllegalArgumentException();
