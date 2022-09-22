@@ -19,47 +19,36 @@ public class MitarbeiterEditModal extends JFrame {
     private final JPanel bodyInternalLeft = new JPanel();
     private final JPanel bodyInternalRight = new JPanel();
     private final JPanel buttonrow = new JPanel();
-
     private final JButton updateButton = new JButton();
     private final JButton exitButton = new JButton();
-
     private final JLabel headerText = new JLabel();
     private final JLabel textId = new JLabel();
     private final JLabel textName = new JLabel();
     private final JLabel textCustomUpper = new JLabel();
     private final JLabel textCustomLower = new JLabel();
-
     private final JLabel textFieldId = new JLabel();
     private final JLabel textFieldName = new JLabel();
     private final JTextField inputCustomUpper = new JTextField();
     private final JTextField inputCustomLower = new JTextField();
 
-    private final ReaderWriter readerWriter;
-
-    private MitarbeiterDto mitarbeiterToEdit;
-
-    public MitarbeiterEditModal(ReaderWriter readerWriter, MitarbeiterDto dude) {
-        this.readerWriter = new ReaderWriter();
-        mitarbeiterToEdit = dude;
-
+    public MitarbeiterEditModal(MitarbeiterDto dude) {
         createHeader();
         createDefaultBody();
         createButtonRow();
-        switch (mitarbeiterToEdit.typ()) {
-            case SCHICHTARBEITER -> createSchichtarbeiterBody(mitarbeiterToEdit);
-            case BUEROARBEITER -> createBueroarbeiterBody(mitarbeiterToEdit);
-            case MANAGER -> createManagerBody(mitarbeiterToEdit);
+        switch (dude.typ()) {
+            case SCHICHTARBEITER -> createSchichtarbeiterBody(dude);
+            case BUEROARBEITER -> createBueroarbeiterBody(dude);
+            case MANAGER -> createManagerBody(dude);
         }
-        textFieldId.setText(String.valueOf(mitarbeiterToEdit.id()));
-        textFieldName.setText(mitarbeiterToEdit.name());
+        textFieldId.setText(String.valueOf(dude.id()));
+        textFieldName.setText(dude.name());
         this.setSize(WINDOW_SIZE);
         this.setResizable(false);
         this.setAlwaysOnTop(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
-
-        updateButton.addActionListener(e -> saveToDb());
+        updateButton.addActionListener(e -> saveToDb(dude));
     }
 
     private void createManagerBody(MitarbeiterDto dto) {
@@ -157,38 +146,37 @@ public class MitarbeiterEditModal extends JFrame {
     }
 
     //if all values are validated, user is able to save to """database"""
-    private boolean saveToDb() {
-        MitarbeiterDto result = switch (mitarbeiterToEdit.typ()) {
+    private void saveToDb(MitarbeiterDto dtoToSave) {
+        MitarbeiterDto result = switch (dtoToSave.typ()) {
             case MANAGER -> new MitarbeiterDto(
-                    mitarbeiterToEdit.id(),
-                    mitarbeiterToEdit.name(),
-                    mitarbeiterToEdit.typ(),
+                    dtoToSave.id(),
+                    dtoToSave.name(),
+                    dtoToSave.typ(),
                     Double.valueOf(inputCustomUpper.getText()),
                     0.0,
                     Double.valueOf(inputCustomLower.getText()),
                     0
             );
             case BUEROARBEITER -> new MitarbeiterDto(
-                    mitarbeiterToEdit.id(),
-                    mitarbeiterToEdit.name(),
-                    mitarbeiterToEdit.typ(),
+                    dtoToSave.id(),
+                    dtoToSave.name(),
+                    dtoToSave.typ(),
                     Double.valueOf(inputCustomUpper.getText()),
                     0.0,
                     0.0,
                     0
             );
             case SCHICHTARBEITER -> new MitarbeiterDto(
-                    mitarbeiterToEdit.id(),
-                    mitarbeiterToEdit.name(),
-                    mitarbeiterToEdit.typ(),
+                    dtoToSave.id(),
+                    dtoToSave.name(),
+                    dtoToSave.typ(),
                    0.0,
                     Double.valueOf(inputCustomUpper.getText()),
                     0.0,
                     Integer.parseInt(inputCustomLower.getText())
             );
         };
-        readerWriter.createMitarbeiter(result);
-        return false;
+        ReaderWriter.createMitarbeiter(result);
     }
 
 
