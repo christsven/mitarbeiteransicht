@@ -176,7 +176,7 @@ public class MitarbeiterEditModal extends JFrame {
                     Integer.parseInt(inputCustomLower.getText())
             );
         };
-        ReaderWriter.createMitarbeiter(result);
+        ReaderWriter.editMitarbeiter(result);
     }
 
 

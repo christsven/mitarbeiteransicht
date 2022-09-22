@@ -17,12 +17,8 @@ public class ReaderWriter {
     private static int managerCounter = 5000;
     private static int bueroArbeiterCounter = 5100;
     private static int schichtArbeiterCounter = 3000;
-    private static final Logger LOGGER = Logger.getLogger("ReaderWriter");;
     private static final CSVRepository csvRepository = new CSVRepository();
-
-    public static List<MitarbeiterDto> getAllMitarbeiter() {
-        return csvRepository.getAllFromCSV();
-    }
+    private static final Logger LOGGER = Logger.getLogger("ReaderWriter");
 
     public static void createMitarbeiter(MitarbeiterDto dto) {
         switch (dto.typ()) {
@@ -32,9 +28,19 @@ public class ReaderWriter {
         }
     }
 
+    public static List<MitarbeiterDto> getAllMitarbeiter() {
+        return csvRepository.getAllMitarbeiter();
+    }
+
+    public static void editMitarbeiter(MitarbeiterDto dto) {
+        csvRepository.deleteMitarbeiter(dto.id());
+        csvRepository.addMitarbeiter(dto, dto.id());
+        LOGGER.log(Level.INFO, String.format("Mitarbeiter with id %s successfully edited.", dto.id()));
+    }
+
     public static void deleteMitarbeiter(int id) {
-        csvRepository.deleteFromCSV(id);
-        LOGGER.log(Level.INFO, "Removed Mitarbeiter.");
+        csvRepository.deleteMitarbeiter(id);
+        LOGGER.log(Level.INFO, String.format("Removed Mitarbeiter with id %s.", id));
     }
 
     private static void createManager(MitarbeiterDto dto) {
@@ -43,9 +49,9 @@ public class ReaderWriter {
             throw new IllegalArgumentException();
         }
         IDValidator.saveID(MitarbeiterTyp.MANAGER, managerCounter);
-        csvRepository.addMitarbeiterToCSV(dto);
+        csvRepository.addMitarbeiter(dto, managerCounter);
         managerCounter = managerCounter + 1;
-        LOGGER.log(Level.INFO, "New Manager created.");
+        LOGGER.log(Level.INFO, String.format("New Manager with id %s created.", managerCounter));
     }
 
     private static void createSchichtarbeiter(MitarbeiterDto dto) {
@@ -54,9 +60,9 @@ public class ReaderWriter {
             throw new IllegalArgumentException();
         }
         IDValidator.saveID(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
-        csvRepository.addMitarbeiterToCSV(dto);
+        csvRepository.addMitarbeiter(dto, schichtArbeiterCounter);
         schichtArbeiterCounter = schichtArbeiterCounter + 1;
-        LOGGER.log(Level.INFO, "New Schichtarbeiter created.");
+        LOGGER.log(Level.INFO, String.format("New Schichtarbeiter with id %s created.", schichtArbeiterCounter));
     }
 
     private static void createBueroarbeiter(MitarbeiterDto dto) {
@@ -65,9 +71,9 @@ public class ReaderWriter {
             throw new IllegalArgumentException();
         }
         IDValidator.saveID(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
-        csvRepository.addMitarbeiterToCSV(dto);
+        csvRepository.addMitarbeiter(dto, bueroArbeiterCounter);
         bueroArbeiterCounter = bueroArbeiterCounter + 1;
-        LOGGER.log(Level.INFO, "New Bueroarbeiter created.");
+        LOGGER.log(Level.INFO, "New Bueroarbeiter with id %s created.", bueroArbeiterCounter);
     }
 
 }
