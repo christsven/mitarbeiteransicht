@@ -177,6 +177,7 @@ public class MitarbeiterEditModal extends JFrame {
             );
         };
         ReaderWriter.editMitarbeiter(result);
+        System.out.println(ReaderWriter.getAllMitarbeiter());
     }
 
 
