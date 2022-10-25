@@ -2,10 +2,13 @@ package com.itf201.mitarbeiteransicht.frontend;
 
 import com.itf201.mitarbeiteransicht.backend.MitarbeiterDto;
 import com.itf201.mitarbeiteransicht.backend.ReaderWriter;
+import com.itf201.mitarbeiteransicht.backend.idvalidation.IDValidator;
 import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class MitarbeiterAddModal extends JFrame {
@@ -25,19 +28,24 @@ public class MitarbeiterAddModal extends JFrame {
     private final JButton exitButton = new JButton();
     private final JLabel headerText = new JLabel();
 
-    private final JLabel textLabelID = new JLabel();
     private final JLabel textLabelName = new JLabel();
     private final JLabel textLabelStundenZahl = new JLabel();
     private final JLabel textLabelStundenLohn = new JLabel();
     private final JLabel textLabelBonussatz = new JLabel();
     private final JLabel textLabelFestGehalt = new JLabel();
 
-    private final JTextField inputID = new JTextField();
     private final JTextField inputName = new JTextField();
     private final JTextField inputStundenZahl = new JTextField();
     private final JTextField inputStundenLohn = new JTextField();
     private final JTextField inputBonussatz = new JTextField();
     private final JTextField inputFestGehalt = new JTextField();
+
+    private final LinkedList<JTextField> allTextfields = new LinkedList<>(
+            List.of(inputName,
+                    inputStundenZahl,
+                    inputStundenLohn,
+                    inputBonussatz,
+                    inputFestGehalt));
 
     private final JComboBox<String> typeSelector = new JComboBox<>(new String[]{
             MitarbeiterTyp.BUEROARBEITER.name(),
@@ -45,7 +53,11 @@ public class MitarbeiterAddModal extends JFrame {
             MitarbeiterTyp.SCHICHTARBEITER.name()
     });
 
-    public MitarbeiterAddModal() {
+    private final void validateEntries() {
+
+    }
+
+    public MitarbeiterAddModal(Runnable onClose) {
         createHeader();
         createDefaultBody();
         createButtonRow();
@@ -55,19 +67,26 @@ public class MitarbeiterAddModal extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
-
-        addButton.addActionListener(e -> saveToDb(createMitarbeiterFromInput()));
+        addButton.addActionListener(e -> {
+            saveToDb(createMitarbeiterFromInput());
+            onClose.run();
+            dispose();
+        });
     }
 
     private MitarbeiterDto createMitarbeiterFromInput() {
+        if (typeSelector.getSelectedItem() == null) throw new NullPointerException("Type is null.");
+
+        final MitarbeiterTyp typ = MitarbeiterTyp.valueOf(typeSelector.getSelectedItem().toString());
+
         return new MitarbeiterDto(
-                Integer.parseInt(inputID.getText()),
+                IDValidator.getValidId(typ),
                 inputName.getText(),
-                MitarbeiterTyp.valueOf(Objects.requireNonNull(typeSelector.getSelectedItem()).toString()),
-                Double.valueOf(inputFestGehalt.getText()),
-                Double.valueOf(inputStundenLohn.getText()),
-                Double.valueOf(inputBonussatz.getText()),
-                Integer.parseInt(inputStundenZahl.getText()));
+                typ,
+                inputFestGehalt.getText().isBlank() ? 0L : Double.parseDouble(inputFestGehalt.getText()),
+                inputStundenLohn.getText().isBlank() ? 0L : Double.parseDouble(inputStundenLohn.getText()),
+                inputBonussatz.getText().isBlank() ? 0L : Double.parseDouble(inputBonussatz.getText()),
+                inputStundenZahl.getText().isBlank() ? 0 : Integer.parseInt(inputStundenZahl.getText()));
     }
 
     private void createHeader() {
@@ -131,7 +150,6 @@ public class MitarbeiterAddModal extends JFrame {
 
     private void createDefaultBody() {
         //left side objects
-        setUpLabel(textLabelID, "ID");
         setUpLabel(textLabelName, "Name");
         setUpLabel(textLabelStundenZahl, "Stundenzahl");
         setUpLabel(textLabelStundenLohn, "Stundenlohn");
@@ -145,7 +163,6 @@ public class MitarbeiterAddModal extends JFrame {
 
         bodyInternalLeft.setLayout(new GridLayout(7, 1));
         bodyInternalLeft.setSize(BODY_SIZE);
-        bodyInternalLeft.add(textLabelID);
         bodyInternalLeft.add(textLabelName);
         bodyInternalLeft.add(textLabelStundenZahl);
         bodyInternalLeft.add(textLabelStundenLohn);
@@ -155,7 +172,6 @@ public class MitarbeiterAddModal extends JFrame {
 
         bodyInternalRight.setLayout(new GridLayout(7, 1));
         bodyInternalRight.setSize(BODY_SIZE);
-        bodyInternalRight.add(inputID);
         bodyInternalRight.add(inputName);
         bodyInternalRight.add(inputStundenZahl);
         bodyInternalRight.add(inputStundenLohn);

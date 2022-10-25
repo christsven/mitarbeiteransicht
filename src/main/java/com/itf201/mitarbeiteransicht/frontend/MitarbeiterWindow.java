@@ -4,6 +4,7 @@ import com.itf201.mitarbeiteransicht.backend.MitarbeiterDto;
 import com.itf201.mitarbeiteransicht.backend.ReaderWriter;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import static javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS;
 
 public class MitarbeiterWindow extends JFrame {
-    private final static Dimension WINDOW_SIZE = new Dimension(1000, 1000);
     private final JButton addButton = new JButton();
     private final JPanel middlePanel = new JPanel();
     private final JToolBar toolBar = new JToolBar("Tools");
@@ -25,7 +25,6 @@ public class MitarbeiterWindow extends JFrame {
         createTable();
         createToolBar();
 
-        setSize(WINDOW_SIZE);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
@@ -36,12 +35,12 @@ public class MitarbeiterWindow extends JFrame {
         table.setModel(new DefaultTableModel(getVisibleTableData(), headerRow));
         table.setRowHeight(20);
         table.setAutoResizeMode(AUTO_RESIZE_ALL_COLUMNS);
+        table.doLayout();
 
         JScrollPane scrollPane = new JScrollPane(table);
         middlePanel.add(scrollPane);
         middlePanel.setVisible(true);
         add(middlePanel);
-
     }
 
     private void createToolBar() {
@@ -80,6 +79,8 @@ public class MitarbeiterWindow extends JFrame {
     }
 
     private void openAddModal() {
-        new MitarbeiterAddModal();
+        new MitarbeiterAddModal(() -> table.setModel(new DefaultTableModel(getVisibleTableData(), headerRow)));
+        AbstractTableModel tableModel = (AbstractTableModel) table.getModel();
+        tableModel.fireTableDataChanged();
     }
 }
