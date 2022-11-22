@@ -54,7 +54,7 @@ public class ReaderWriter {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Manager.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.MANAGER, managerCounter);
+        IDValidator.saveId(MitarbeiterTyp.MANAGER, managerCounter);
         csvRepository.addMitarbeiter(dto, managerCounter);
         managerCounter = managerCounter + 1;
         LOGGER.log(Level.INFO, String.format("New Manager with id %s created.", managerCounter));
@@ -65,7 +65,7 @@ public class ReaderWriter {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Schichtarbeiter.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
+        IDValidator.saveId(MitarbeiterTyp.SCHICHTARBEITER, schichtArbeiterCounter);
         csvRepository.addMitarbeiter(dto, schichtArbeiterCounter);
         schichtArbeiterCounter = schichtArbeiterCounter + 1;
         LOGGER.log(Level.INFO, String.format("New Schichtarbeiter with id %s created.", schichtArbeiterCounter));
@@ -76,7 +76,7 @@ public class ReaderWriter {
             LOGGER.log(Level.SEVERE, "Null values found, failed to create Bueroarbeiter.");
             throw new IllegalArgumentException();
         }
-        IDValidator.saveID(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
+        IDValidator.saveId(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
         csvRepository.addMitarbeiter(dto, bueroArbeiterCounter);
         bueroArbeiterCounter = bueroArbeiterCounter + 1;
         LOGGER.log(Level.INFO, "New Bueroarbeiter with id %s created.", bueroArbeiterCounter);

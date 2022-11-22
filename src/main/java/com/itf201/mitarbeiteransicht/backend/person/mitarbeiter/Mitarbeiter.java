@@ -47,7 +47,7 @@ public abstract class Mitarbeiter implements Comparable<Mitarbeiter> {
      * @param id has to be positive, four digits
      */
     protected void setId(MitarbeiterTyp typ, int id) {
-        IDStatus status = IDValidator.validateID(typ, id);
+        IDStatus status = IDValidator.validateId(typ, id);
         if(status == IDStatus.OK) {
             this.id = id;
         } else {

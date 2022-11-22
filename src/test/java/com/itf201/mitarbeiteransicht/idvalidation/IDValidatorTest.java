@@ -14,21 +14,21 @@ class IDValidatorTest {
     void test_validation_for_wrong_id() {
         Assertions.assertEquals(
                 IDStatus.INVALID_ID,
-                IDValidator.validateID(SCHICHTARBEITER, 5700));
+                IDValidator.validateId(SCHICHTARBEITER, 5700));
     }
 
     @Test
     void test_validation_for_short_id() {
         Assertions.assertEquals(
                 IDStatus.INVALID_ID,
-                IDValidator.validateID(SCHICHTARBEITER, 50));
+                IDValidator.validateId(SCHICHTARBEITER, 50));
     }
 
     @Test
     void test_validation_correct_id() {
         Assertions.assertEquals(
                 IDStatus.OK,
-                IDValidator.validateID(SCHICHTARBEITER, 3500));
+                IDValidator.validateId(SCHICHTARBEITER, 3500));
     }
 
     @Test
@@ -36,11 +36,11 @@ class IDValidatorTest {
         //when
         Assertions.assertEquals(
                 IDStatus.OK,
-                IDValidator.saveID(MitarbeiterTyp.MANAGER, 5000));
+                IDValidator.saveId(MitarbeiterTyp.MANAGER, 5000));
         //then
         Assertions.assertEquals(
                 IDStatus.ALREADY_TAKEN,
-                IDValidator.saveID(MitarbeiterTyp.MANAGER, 5000));
+                IDValidator.saveId(MitarbeiterTyp.MANAGER, 5000));
     }
 
 }
