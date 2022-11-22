@@ -6,6 +6,8 @@ import com.itf201.mitarbeiteransicht.backend.idvalidation.IDValidator;
 import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,10 +55,6 @@ public class MitarbeiterAddModal extends JFrame {
             MitarbeiterTyp.SCHICHTARBEITER.name()
     });
 
-    private final void validateEntries() {
-
-    }
-
     public MitarbeiterAddModal(Runnable onClose) {
         createHeader();
         createDefaultBody();
@@ -72,21 +70,7 @@ public class MitarbeiterAddModal extends JFrame {
             onClose.run();
             dispose();
         });
-    }
-
-    private MitarbeiterDto createMitarbeiterFromInput() {
-        if (typeSelector.getSelectedItem() == null) throw new NullPointerException("Type is null.");
-
-        final MitarbeiterTyp typ = MitarbeiterTyp.valueOf(typeSelector.getSelectedItem().toString());
-
-        return new MitarbeiterDto(
-                IDValidator.getValidId(typ),
-                inputName.getText(),
-                typ,
-                inputFestGehalt.getText().isBlank() ? 0L : Double.parseDouble(inputFestGehalt.getText()),
-                inputStundenLohn.getText().isBlank() ? 0L : Double.parseDouble(inputStundenLohn.getText()),
-                inputBonussatz.getText().isBlank() ? 0L : Double.parseDouble(inputBonussatz.getText()),
-                inputStundenZahl.getText().isBlank() ? 0 : Integer.parseInt(inputStundenZahl.getText()));
+        allTextfields.forEach(tx -> tx.getDocument().addDocumentListener(createDocListener()));
     }
 
     private void createHeader() {
@@ -102,50 +86,6 @@ public class MitarbeiterAddModal extends JFrame {
         typeSelector.addActionListener(e -> enableCorrectInputColumns(MitarbeiterTyp.valueOf(
                 Objects.requireNonNull(typeSelector.getSelectedItem()).toString())));
         typeSelector.setSelectedIndex(0);
-    }
-
-    private void setAllLabelsAndInputsInvisible() {
-        textLabelStundenZahl.setEnabled(false);
-        inputStundenZahl.setEnabled(false);
-
-        textLabelStundenLohn.setEnabled(false);
-        inputStundenLohn.setEnabled(false);
-
-        textLabelBonussatz.setEnabled(false);
-        inputBonussatz.setEnabled(false);
-
-        textLabelFestGehalt.setEnabled(false);
-        inputFestGehalt.setEnabled(false);
-    }
-
-    private void enableCorrectInputColumns(MitarbeiterTyp type) {
-        setAllLabelsAndInputsInvisible();
-        switch (type) {
-            case MANAGER -> {
-                textLabelBonussatz.setEnabled(true);
-                inputBonussatz.setEnabled(true);
-                textLabelFestGehalt.setEnabled(true);
-                inputFestGehalt.setEnabled(true);
-            }
-            case BUEROARBEITER -> {
-                textLabelFestGehalt.setEnabled(true);
-                inputFestGehalt.setEnabled(true);
-            }
-            case SCHICHTARBEITER -> {
-                textLabelStundenZahl.setEnabled(true);
-                inputStundenZahl.setEnabled(true);
-                textLabelStundenLohn.setEnabled(true);
-                inputStundenLohn.setEnabled(true);
-            }
-        }
-        pack();
-    }
-
-    private void setUpLabel(JLabel label, String name) {
-        label.setText(name);
-        label.setVisible(true);
-        label.setSize(BODY_OBJECT_SIZE);
-        label.setFocusable(false);
     }
 
     private void createDefaultBody() {
@@ -195,6 +135,7 @@ public class MitarbeiterAddModal extends JFrame {
 
         addButton.setText("Speichern");
         addButton.setVisible(true);
+        addButton.setEnabled(false);
 
         buttonrow.add(exitButton);
         buttonrow.add(addButton);
@@ -202,7 +143,21 @@ public class MitarbeiterAddModal extends JFrame {
         getContentPane().add(buttonrow, BorderLayout.SOUTH);
     }
 
-    //if all values are validated, user is able to save to """database"""
+    private MitarbeiterDto createMitarbeiterFromInput() {
+        if (typeSelector.getSelectedItem() == null) throw new NullPointerException("Type is null.");
+
+        final MitarbeiterTyp typ = MitarbeiterTyp.valueOf(typeSelector.getSelectedItem().toString());
+
+        return new MitarbeiterDto(
+                IDValidator.getValidId(typ),
+                inputName.getText(),
+                typ,
+                inputFestGehalt.getText().isBlank() ? 0L : Double.parseDouble(inputFestGehalt.getText()),
+                inputStundenLohn.getText().isBlank() ? 0L : Double.parseDouble(inputStundenLohn.getText()),
+                inputBonussatz.getText().isBlank() ? 0L : Double.parseDouble(inputBonussatz.getText()),
+                inputStundenZahl.getText().isBlank() ? 0 : Integer.parseInt(inputStundenZahl.getText()));
+    }
+
     private void saveToDb(MitarbeiterDto dtoToSave) {
         MitarbeiterDto result = switch (dtoToSave.typ()) {
             case MANAGER -> new MitarbeiterDto(
@@ -234,5 +189,78 @@ public class MitarbeiterAddModal extends JFrame {
             );
         };
         ReaderWriter.createMitarbeiter(result);
+    }
+
+    private void enableCorrectInputColumns(MitarbeiterTyp type) {
+        setAllLabelsAndInputsInvisible();
+        switch (type) {
+            case MANAGER -> {
+                textLabelBonussatz.setEnabled(true);
+                inputBonussatz.setEnabled(true);
+                textLabelFestGehalt.setEnabled(true);
+                inputFestGehalt.setEnabled(true);
+            }
+            case BUEROARBEITER -> {
+                textLabelFestGehalt.setEnabled(true);
+                inputFestGehalt.setEnabled(true);
+            }
+            case SCHICHTARBEITER -> {
+                textLabelStundenZahl.setEnabled(true);
+                inputStundenZahl.setEnabled(true);
+                textLabelStundenLohn.setEnabled(true);
+                inputStundenLohn.setEnabled(true);
+            }
+        }
+        pack();
+    }
+
+    private void setAllLabelsAndInputsInvisible() {
+        textLabelStundenZahl.setEnabled(false);
+        inputStundenZahl.setEnabled(false);
+        inputStundenZahl.setText("");
+
+        textLabelStundenLohn.setEnabled(false);
+        inputStundenLohn.setEnabled(false);
+        inputStundenLohn.setText("");
+
+        textLabelBonussatz.setEnabled(false);
+        inputBonussatz.setEnabled(false);
+        inputBonussatz.setText("");
+
+        textLabelFestGehalt.setEnabled(false);
+        inputFestGehalt.setEnabled(false);
+        inputFestGehalt.setText("");
+
+        addButton.setEnabled(false);
+    }
+
+    private void setUpLabel(JLabel label, String name) {
+        label.setText(name);
+        label.setVisible(true);
+        label.setSize(BODY_OBJECT_SIZE);
+        label.setFocusable(false);
+    }
+
+    private void validateEntries() {
+        addButton.setEnabled(allTextfields.stream()
+                .filter(Component::isEnabled)
+                .noneMatch(textField -> textField.getText().isBlank()));
+    }
+
+    private DocumentListener createDocListener() {
+        return new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateEntries();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateEntries();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
+        };
     }
 }
