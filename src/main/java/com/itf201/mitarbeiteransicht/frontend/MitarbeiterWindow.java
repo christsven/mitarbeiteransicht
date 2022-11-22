@@ -21,13 +21,14 @@ public class MitarbeiterWindow extends JFrame {
             "ID", "NAME", "POSITION", "FESTGEHALT", "STUNDENLOHN", "BONUSSATZ", "STUNDENZAHL"
     };
 
-    public MitarbeiterWindow() {
+    public MitarbeiterWindow(Runnable runnable) {
         createTable();
         createToolBar();
 
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
+        //TODO onClose ->
     }
 
     private void createTable() {

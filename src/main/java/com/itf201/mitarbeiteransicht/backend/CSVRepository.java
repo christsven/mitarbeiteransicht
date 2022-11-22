@@ -13,9 +13,9 @@ import java.util.logging.Logger;
  */
 public class CSVRepository {
 
-    private final Logger LOGGER = Logger.getLogger("CSVRepository");
-    private static final String FILE_PATH =
+    public static final String FILE_PATH =
             "H:/Schule/src/mitarbeiteransicht/src/main/java/com/itf201/mitarbeiteransicht/persistence/die_datenbank.csv";
+    private final Logger LOGGER = Logger.getLogger("CSVRepository");
     private static final String DELIMINATOR = ";";
 
     public void addMitarbeiter(MitarbeiterDto dto, int id) {
