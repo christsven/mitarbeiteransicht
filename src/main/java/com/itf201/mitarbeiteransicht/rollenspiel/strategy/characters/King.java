@@ -1,6 +1,6 @@
-package com.itf201.mitarbeiteransicht.rollenspiel.characters;
+package com.itf201.mitarbeiteransicht.rollenspiel.strategy.characters;
 
-import com.itf201.mitarbeiteransicht.rollenspiel.weapons.WeaponBehavior;
+import com.itf201.mitarbeiteransicht.rollenspiel.strategy.weapons.WeaponBehavior;
 
 public class King extends Character {
 

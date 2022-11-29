@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.rollenspiel.weapons;
+package com.itf201.mitarbeiteransicht.rollenspiel.strategy.weapons;
 
 public class Knife implements WeaponBehavior {
 
