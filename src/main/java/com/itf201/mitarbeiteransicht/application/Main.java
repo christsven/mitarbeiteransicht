@@ -32,10 +32,12 @@ public class Main {
         final TemplateKnight knight = new TemplateKnight(new TemplateBow());
         final TemplateTroll troll = new TemplateTroll(new TemplateSword());
         final TemplateQueen queen = new TemplateQueen(new TemplateKnife());
+
         king.fight();
         queen.fight();
         troll.fight();
         knight.fight();
+
         queen.setWeapon(new TemplateSword());
         queen.fight();
     }

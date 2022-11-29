@@ -17,29 +17,19 @@ public abstract class TemplateWeaponBehavior {
 
     public void useWeapon(final String attackerName) {
         if (draw() && prepareWeapon()) {
-            System.out.printf("%s hat %s gezogen.%n", attackerName, name);
+            print("%s hat %s gezogen.", attackerName, name);
             for (int i = 0; i < attackCount; i++) {
-                System.out.printf("%s hat noch %s Angriffe.%n", attackerName, attackCount - i);
+                print("%s hat noch %s Angriffe.", attackerName, attackCount - i);
                 if (aim()) {
-                    System.out.printf("%s visiert erfolgreich an.%n", attackerName);
-                    if (strike()) {
-                        System.out.printf("%s hat den Feind getroffen!%n", attackerName);
-                    } else {
-                        System.out.printf("%s hat den Feind vefehlt!%n", attackerName);
-                    }
-                } else {
-                    System.out.printf("%s kann kein Ziel finden.%n", attackerName);
-                }
+                    print("%s visiert erfolgreich an.", attackerName);
+                    if (strike()) print("%s hat den Feind getroffen!", attackerName);
+                    else print("%s hat den Feind vefehlt!", attackerName);
+                } else print("%s kann kein Ziel finden.", attackerName);
             }
-            if (holster()) {
-                System.out.printf("%s holstert %s.%n", attackerName, name);
-            } else {
-                System.out.printf("%s hält %s weiter in der Hand.%n", attackerName, name);
-            }
-        } else {
-            System.out.printf("%s ist das Ziehen der Waffe misslungen.%n", attackerName);
-        }
-        System.out.printf("%s beendet den Zug.%n", attackerName);
+            if (holster()) print("%s holstert %s.", attackerName, name);
+            else print("%s hält %s weiter in der Hand.", attackerName, name);
+        } else print("%s ist das Ziehen der Waffe misslungen.", attackerName);
+        print("%s beendet den Zug.", attackerName);
         System.out.println("***************************************");
     }
 
@@ -52,4 +42,8 @@ public abstract class TemplateWeaponBehavior {
     abstract boolean strike();
 
     abstract boolean holster();
+
+    private void print(String pattern, Object... arguments) {
+        System.out.printf(pattern.concat("%n"), arguments);
+    }
 }
