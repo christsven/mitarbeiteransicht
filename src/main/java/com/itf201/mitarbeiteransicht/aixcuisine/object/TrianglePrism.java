@@ -1,6 +1,6 @@
-package object;
+package com.itf201.mitarbeiteransicht.aixcuisine.object;
 
-import shape.Triangle;
+import com.itf201.mitarbeiteransicht.aixcuisine.shape.Triangle;
 
 public class TrianglePrism extends Prism {
 

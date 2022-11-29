@@ -1,4 +1,4 @@
-package shape;
+package com.itf201.mitarbeiteransicht.aixcuisine.shape;
 
 public class Triangle extends AbstractShape {
 

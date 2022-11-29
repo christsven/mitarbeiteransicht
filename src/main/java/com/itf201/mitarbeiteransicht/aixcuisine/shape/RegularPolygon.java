@@ -1,4 +1,4 @@
-package shape;
+package com.itf201.mitarbeiteransicht.aixcuisine.shape;
 
 public class RegularPolygon extends AbstractShape {
 
@@ -65,7 +65,7 @@ public class RegularPolygon extends AbstractShape {
 
     @Override
     protected void onParametersChanged() {
-        setArea((getVertices() - 2) * Triangle.calculateTriangleAreaHeronFormula(
+        setArea((getVertices() - 2) * shape.Triangle.calculateTriangleAreaHeronFormula(
                 sidelength,
                 sidelength,
                 sidelength)

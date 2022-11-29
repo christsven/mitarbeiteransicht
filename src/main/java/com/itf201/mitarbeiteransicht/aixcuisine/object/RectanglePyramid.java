@@ -1,6 +1,6 @@
-package object;
+package com.itf201.mitarbeiteransicht.aixcuisine.object;
 
-import shape.Rectangle;
+import com.itf201.mitarbeiteransicht.aixcuisine.shape.Rectangle;
 
 public class RectanglePyramid extends Pyramid {
 

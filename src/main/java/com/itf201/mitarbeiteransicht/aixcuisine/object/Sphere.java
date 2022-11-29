@@ -1,4 +1,4 @@
-package object;
+package com.itf201.mitarbeiteransicht.aixcuisine.object;
 
 public class Sphere extends AbstractObject {
 

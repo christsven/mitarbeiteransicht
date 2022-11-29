@@ -1,4 +1,4 @@
-package object.pricereader;
+package com.itf201.mitarbeiteransicht.aixcuisine.object.pricereader;
 
 import object.AbstractObject;
 

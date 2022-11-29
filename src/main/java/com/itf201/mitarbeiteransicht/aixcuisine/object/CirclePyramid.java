@@ -1,8 +1,8 @@
-package object;
+package com.itf201.mitarbeiteransicht.aixcuisine.object;
 
-import shape.Circle;
+import com.itf201.mitarbeiteransicht.aixcuisine.shape.Circle;
 
-public class CirclePyramid extends Pyramid{
+public class CirclePyramid extends Pyramid {
 
     public CirclePyramid(int id, Circle shape, double height) {
         super(id, shape, height);

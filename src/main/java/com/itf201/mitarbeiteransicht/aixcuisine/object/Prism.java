@@ -1,6 +1,6 @@
-package object;
+package com.itf201.mitarbeiteransicht.aixcuisine.object;
 
-import shape.AbstractShape;
+import com.itf201.mitarbeiteransicht.aixcuisine.shape.AbstractShape;
 
 public abstract class Prism extends GroundShapeObject {
 
