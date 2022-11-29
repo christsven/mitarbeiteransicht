@@ -79,7 +79,7 @@ public class ReaderWriter {
         IDValidator.saveId(MitarbeiterTyp.BUEROARBEITER, bueroArbeiterCounter);
         csvRepository.addMitarbeiter(dto, bueroArbeiterCounter);
         bueroArbeiterCounter = bueroArbeiterCounter + 1;
-        LOGGER.log(Level.INFO, "New Bueroarbeiter with id %s created.", bueroArbeiterCounter);
+        LOGGER.log(Level.INFO, String.format("New Bueroarbeiter with id %s created.", bueroArbeiterCounter));
     }
 
 }

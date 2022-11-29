@@ -1,5 +1,6 @@
 package com.itf201.mitarbeiteransicht.frontend;
 
+import com.itf201.mitarbeiteransicht.backend.CSVRepository;
 import com.itf201.mitarbeiteransicht.backend.MitarbeiterDto;
 import com.itf201.mitarbeiteransicht.backend.ReaderWriter;
 
@@ -7,11 +8,16 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS;
 
 public class MitarbeiterWindow extends JFrame {
+    Logger LOGGER = Logger.getLogger("MitarbeiterWindow");
     private final JButton addButton = new JButton();
     private final JPanel middlePanel = new JPanel();
     private final JToolBar toolBar = new JToolBar("Tools");
@@ -21,14 +27,13 @@ public class MitarbeiterWindow extends JFrame {
             "ID", "NAME", "POSITION", "FESTGEHALT", "STUNDENLOHN", "BONUSSATZ", "STUNDENZAHL"
     };
 
-    public MitarbeiterWindow(Runnable runnable) {
+    public MitarbeiterWindow() {
         createTable();
         createToolBar();
 
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
-        //TODO onClose ->
     }
 
     private void createTable() {
@@ -83,5 +88,14 @@ public class MitarbeiterWindow extends JFrame {
         new MitarbeiterAddModal(() -> table.setModel(new DefaultTableModel(getVisibleTableData(), headerRow)));
         AbstractTableModel tableModel = (AbstractTableModel) table.getModel();
         tableModel.fireTableDataChanged();
+    }
+
+    @Override
+    protected void processWindowEvent(WindowEvent e) {
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+            File file = new File(CSVRepository.FILE_PATH);
+            if (file.delete()) LOGGER.log(Level.INFO, "Deleted datenbank data.");
+        }
+        super.processWindowEvent(e);
     }
 }
