@@ -3,6 +3,9 @@ package com.itf201.mitarbeiteransicht.application;
 import com.itf201.mitarbeiteransicht.backend.MitarbeiterDto;
 import com.itf201.mitarbeiteransicht.backend.ReaderWriter;
 import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
+import com.itf201.mitarbeiteransicht.composite.LegoBausatz;
+import com.itf201.mitarbeiteransicht.composite.LegoCity;
+import com.itf201.mitarbeiteransicht.composite.LegoStein;
 import com.itf201.mitarbeiteransicht.frontend.MitarbeiterWindow;
 import com.itf201.mitarbeiteransicht.rollenspiel.strategy.characters.King;
 import com.itf201.mitarbeiteransicht.rollenspiel.strategy.characters.Knight;
@@ -21,10 +24,12 @@ import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateBow;
 import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateKnife;
 import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateSword;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
-        createTemplateRolePlay();
+        createLegoCity();
     }
 
     private static void createTemplateRolePlay() {
@@ -119,5 +124,29 @@ public class Main {
         // Open Window
         MitarbeiterWindow window = new MitarbeiterWindow();
 
+    }
+
+    private static void createLegoCity() {
+        final LegoStein brick = new LegoStein("Doppelsteil", 0.5);
+        final LegoStein brick0 = new LegoStein("Einzelteil", 0.25);
+        final LegoStein brick1 = new LegoStein("Riesenstein", 2.4);
+        final LegoStein brick2 = new LegoStein("Stein", 4);
+        final LegoStein brick3 = new LegoStein("Premiumblock", 24);
+
+        final LegoBausatz bausatzHaus = new LegoBausatz("Kleines Haus", List.of(brick, brick3));
+        final LegoBausatz bausatzSkyScraper = new LegoBausatz("Wolkenkratzer", List.of(brick0, brick1, brick2));
+
+        final LegoCity city = new LegoCity(List.of(bausatzHaus, bausatzSkyScraper));
+
+        System.out.println(brick.getPrice());
+        System.out.println(brick0.getPrice());
+        System.out.println(brick1.getPrice());
+        System.out.println(brick2.getPrice());
+        System.out.println(brick3.getPrice());
+        System.out.println("***********************");
+        System.out.println(bausatzHaus.getPrice());
+        System.out.println(bausatzSkyScraper.getPrice());
+        System.out.println("***********************");
+        System.out.println(city.getPrice());
     }
 }

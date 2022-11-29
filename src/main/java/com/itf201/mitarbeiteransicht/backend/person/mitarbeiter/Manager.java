@@ -1,8 +1,6 @@
 package com.itf201.mitarbeiteransicht.backend.person.mitarbeiter;
 
 
-import com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp;
-
 import static com.itf201.mitarbeiteransicht.backend.person.MitarbeiterTyp.MANAGER;
 
 public class Manager extends BueroArbeiter {
