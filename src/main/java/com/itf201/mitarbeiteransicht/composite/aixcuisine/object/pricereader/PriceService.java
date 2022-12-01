@@ -1,6 +1,6 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.object.pricereader;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.object.pricereader;
 
-import object.AbstractObject;
+import com.itf201.mitarbeiteransicht.composite.aixcuisine.object.AbstractObject;
 
 import java.util.HashMap;
 

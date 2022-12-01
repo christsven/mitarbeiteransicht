@@ -1,6 +1,6 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.object;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.object;
 
-import com.itf201.mitarbeiteransicht.aixcuisine.shape.Circle;
+import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.Circle;
 
 public class CirclePrism extends Prism {
 

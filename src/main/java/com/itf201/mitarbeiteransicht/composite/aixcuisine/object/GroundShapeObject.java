@@ -1,7 +1,7 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.object;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.object;
 
 
-import com.itf201.mitarbeiteransicht.aixcuisine.shape.AbstractShape;
+import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.AbstractShape;
 
 public abstract class GroundShapeObject extends AbstractObject {
 

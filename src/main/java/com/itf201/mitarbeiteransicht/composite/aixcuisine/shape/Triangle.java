@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.shape;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.shape;
 
 public class Triangle extends AbstractShape {
 
@@ -8,9 +8,7 @@ public class Triangle extends AbstractShape {
     private double circumference;
 
     public Triangle(double sideA, double sideB, double sideC) {
-        if (!valideSidelengths(sideA, sideB, sideC)) {
-            throw new IllegalArgumentException("Lengths are invalid");
-        }
+        if (!valideSidelengths(sideA, sideB, sideC)) throw new IllegalArgumentException("Lengths are invalid");
         a = sideA;
         b = sideB;
         c = sideC;
@@ -29,56 +27,36 @@ public class Triangle extends AbstractShape {
      * @return if a triangle can be created with the given sidelengths
      */
     private static boolean valideSidelengths(double a, double b, double c) {
-        return a + b > c
-                && a + c > b
-                && b + c > a;
+        return a + b > c && a + c > b && b + c > a;
     }
 
     public void setA(double sideA) {
         if (valideSidelengths(sideA, b, c)) {
             this.a = sideA;
             onParametersChanged();
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s",
-                    sideA,
-                    b,
-                    c));
-        }
+        } else throw new IllegalArgumentException(String.format(
+                    "Sidelength %s doesnt work with sides %s, %s", sideA, b, c));
     }
 
     public void setB(double sideB) {
         if (valideSidelengths(a, sideB, c)) {
             this.b = sideB;
             onParametersChanged();
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s",
-                    sideB,
-                    a,
-                    c));
-        }
+        } else throw new IllegalArgumentException(String.format(
+                    "Sidelength %s doesnt work with sides %s, %s", sideB, a, c));
     }
 
     public void setC(double sideC) {
         if (valideSidelengths(a, b, sideC)) {
             this.c = sideC;
             onParametersChanged();
-        } else {
-            throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s",
-                    sideC,
-                    b,
-                    a));
-        }
+        } else throw new IllegalArgumentException(String.format(
+                    "Sidelength %s doesnt work with sides %s, %s", sideC, b, a));
     }
 
     public void setCircumference(double circumference) {
-        if(circumference > 0) {
-            this.circumference = circumference;
-        } else {
-            throw new IllegalArgumentException("Circumference has to be greater than 0.");
-        }
+        if (circumference > 0) this.circumference = circumference;
+        else throw new IllegalArgumentException("Circumference has to be greater than 0.");
     }
 
     public double getCircumference() {

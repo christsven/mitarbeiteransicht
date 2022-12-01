@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.object.pricereader;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.object.pricereader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * CSV-Reader speziell für den Import der Preislisten. Erstellt eine HashMap
- * (https://www.baeldung.com/java-hashmap), welche dem PriceController zur Verfügung gestellt
+ * CSV-Reader speziell für den Import der Preislisten. Erstellt eine
+ * (<a href="https://www.baeldung.com/java-hashmap">{@link HashMap}</a>), welche dem PriceController zur Verfügung gestellt
  * wird.
  */
 public class PriceReader {

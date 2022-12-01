@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.shape;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.shape;
 
 public class Circle extends AbstractShape {
 
@@ -24,11 +24,8 @@ public class Circle extends AbstractShape {
     }
 
     private void setCircumference(double circumference) {
-        if(circumference > 0) {
-            this.circumference = circumference;
-        } else {
-            throw new IllegalArgumentException(String.format("Circumference cant be negative: %s", circumference));
-        }
+        if (circumference > 0) this.circumference = circumference;
+        else throw new IllegalArgumentException(String.format("Circumference cant be negative: %s", circumference));
     }
 
     private void calculateCircumference() {

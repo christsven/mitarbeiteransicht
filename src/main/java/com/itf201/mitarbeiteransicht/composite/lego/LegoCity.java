@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.composite;
+package com.itf201.mitarbeiteransicht.composite.lego;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.itf201.mitarbeiteransicht.aixcuisine.object;
+package com.itf201.mitarbeiteransicht.composite.aixcuisine.object;
 
 public abstract class AbstractObject {
 
