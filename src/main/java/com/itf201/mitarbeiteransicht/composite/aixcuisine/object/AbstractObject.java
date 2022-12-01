@@ -45,6 +45,6 @@ public abstract class AbstractObject {
      */
     void onParametersChanged() {
         calculateSurface();
-        calculateSurface();
+        calculateVolume();
     }
 }

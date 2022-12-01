@@ -2,6 +2,7 @@ package com.itf201.mitarbeiteransicht.composite.aixcuisine.shape;
 
 public class Triangle extends AbstractShape {
 
+    private final String ERROR_MESSAGE = "Sidelength %s doesnt work with sides %s, %s";
     private double a;
     private double b;
     private double c;
@@ -34,24 +35,21 @@ public class Triangle extends AbstractShape {
         if (valideSidelengths(sideA, b, c)) {
             this.a = sideA;
             onParametersChanged();
-        } else throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s", sideA, b, c));
+        } else throw new IllegalArgumentException(String.format(ERROR_MESSAGE, sideA, b, c));
     }
 
     public void setB(double sideB) {
         if (valideSidelengths(a, sideB, c)) {
             this.b = sideB;
             onParametersChanged();
-        } else throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s", sideB, a, c));
+        } else throw new IllegalArgumentException(String.format(ERROR_MESSAGE, sideB, a, c));
     }
 
     public void setC(double sideC) {
         if (valideSidelengths(a, b, sideC)) {
             this.c = sideC;
             onParametersChanged();
-        } else throw new IllegalArgumentException(String.format(
-                    "Sidelength %s doesnt work with sides %s, %s", sideC, b, a));
+        } else throw new IllegalArgumentException(String.format(ERROR_MESSAGE, sideC, b, a));
     }
 
     public void setCircumference(double circumference) {

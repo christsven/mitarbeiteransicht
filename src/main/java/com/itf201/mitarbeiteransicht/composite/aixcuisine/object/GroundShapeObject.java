@@ -6,10 +6,9 @@ import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.AbstractShape;
 public abstract class GroundShapeObject extends AbstractObject {
 
     private final AbstractShape groundShape;
-
     private double height;
 
-    public GroundShapeObject(int id, AbstractShape shape, double height) {
+    public GroundShapeObject(final int id, AbstractShape shape, double height) {
         super(id);
         this.groundShape = shape;
         setHeight(height);

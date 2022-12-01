@@ -16,7 +16,7 @@ public class Sphere extends AbstractObject {
 
     @Override
     void calculateVolume() {
-        setVolume((4 / 3) * Math.PI * radius * radius * radius);
+        setVolume((4.0 / 3.0) * Math.PI * radius * radius * radius);
     }
 
     @Override

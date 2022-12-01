@@ -4,7 +4,7 @@ import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.AbstractShape;
 
 public abstract class Pyramid extends GroundShapeObject {
 
-    public Pyramid(int id, AbstractShape shape, double height) {
+    public Pyramid(final int id, AbstractShape shape, double height) {
         super(id, shape, height);
     }
 

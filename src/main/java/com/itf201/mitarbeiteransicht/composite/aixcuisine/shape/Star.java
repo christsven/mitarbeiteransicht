@@ -9,9 +9,7 @@ public class Star extends AbstractShape {
     public Star(double internSidelength) {
         parts = new ArrayList<>();
         parts.add(new RegularPolygon(internSidelength, 5));
-        for (int i = 0; i < 5; i++) {
-            parts.add(new Triangle(internSidelength, internSidelength, internSidelength));
-        }
+        for (int i = 0; i < 5; i++) parts.add(new Triangle(internSidelength, internSidelength, internSidelength));
         onParametersChanged();
     }
 

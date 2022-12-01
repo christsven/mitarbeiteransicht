@@ -4,7 +4,7 @@ import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.Circle;
 
 public class CirclePrism extends Prism {
 
-    public CirclePrism(int id, Circle shape, double height) {
+    public CirclePrism(final int id, Circle shape, double height) {
         super(id, shape, height);
     }
 

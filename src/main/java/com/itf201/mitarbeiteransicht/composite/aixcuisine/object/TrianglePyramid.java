@@ -10,10 +10,9 @@ public class TrianglePyramid extends Pyramid {
 
     @Override
     double getLateralSurface() {
-        Triangle shape = (Triangle) getGroundShape();
-        return shape.getA()
-                * shape.getB()
-                * shape.getC()
+        return ((Triangle) getGroundShape()).getA()
+                * ((Triangle) getGroundShape()).getB()
+                * ((Triangle) getGroundShape()).getC()
                 + 0.5 * getHeight();
     }
 }

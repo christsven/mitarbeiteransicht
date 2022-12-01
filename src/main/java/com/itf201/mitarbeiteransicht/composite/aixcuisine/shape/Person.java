@@ -12,9 +12,7 @@ public class Person extends AbstractShape {
         parts.add(new Circle(10));
         parts.add(new Circle(3));
         parts.add(new Rectangle(1, 1));
-        for (int i = 0; i < 4; i++) {
-            parts.add(new Rectangle(4, 1));
-        }
+        for (int i = 0; i < 4; i++) parts.add(new Rectangle(4, 1));
         onParametersChanged();
     }
 

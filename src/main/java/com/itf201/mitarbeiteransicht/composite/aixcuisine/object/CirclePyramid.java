@@ -4,13 +4,14 @@ import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.Circle;
 
 public class CirclePyramid extends Pyramid {
 
-    public CirclePyramid(int id, Circle shape, double height) {
+    public CirclePyramid(final int id, Circle shape, double height) {
         super(id, shape, height);
     }
 
     @Override
     double getLateralSurface() {
-        Circle circle = (Circle) getGroundShape();
-        return Math.sqrt(getHeight() * getHeight() + circle.getRadius() * circle.getRadius());
+        return Math.sqrt(getHeight() * getHeight()
+                + ((Circle) getGroundShape()).getRadius()
+                * ((Circle) getGroundShape()).getRadius());
     }
 }

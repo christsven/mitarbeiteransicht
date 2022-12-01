@@ -4,7 +4,7 @@ import com.itf201.mitarbeiteransicht.composite.aixcuisine.shape.AbstractShape;
 
 public abstract class Prism extends GroundShapeObject {
 
-    public Prism(int id, AbstractShape shape, double height) {
+    public Prism(final int id, AbstractShape shape, double height) {
         super(id, shape, height);
     }
 

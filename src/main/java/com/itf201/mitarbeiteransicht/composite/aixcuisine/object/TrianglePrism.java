@@ -10,7 +10,6 @@ public class TrianglePrism extends Prism {
 
     @Override
     double getCircumferenceOfGroundShape() {
-        Triangle triangle = (Triangle) getGroundShape();
-        return triangle.getCircumference();
+        return ((Triangle) getGroundShape()).getCircumference();
     }
 }
