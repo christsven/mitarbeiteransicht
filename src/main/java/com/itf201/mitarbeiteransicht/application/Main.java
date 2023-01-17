@@ -23,13 +23,18 @@ import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateAxe;
 import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateBow;
 import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateKnife;
 import com.itf201.mitarbeiteransicht.rollenspiel.template.weapons.TemplateSword;
+import com.itf201.mitarbeiteransicht.threads.DateCounterCommand.DateCounterThread;
 
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        createLegoCity();
+        createApp();
+    }
+
+    private static void startCounterCommand() {
+        new DateCounterThread().start();
     }
 
     private static void createTemplateRolePlay() {

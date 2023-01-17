@@ -8,12 +8,12 @@ public class UndoCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         command.execute();
     }
 
     @Override
-    void undo() {
+    public void undo() {
         command.undo();
     }
 }
